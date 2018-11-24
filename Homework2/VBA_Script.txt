@@ -1,0 +1,92 @@
+Sub GetDataFromStocks()
+Dim i As Double
+Dim worksheet_pos As Double
+Dim flag As Boolean
+Dim open_stock As Double
+Dim close_stock As Double
+Dim total_stock As Double
+Dim ticker As String
+Dim ticker_pos As String
+Dim ticker_neg As String
+Dim ticker_vol As String
+Dim great_pos As Double
+Dim great_neg As Double
+Dim great_vol As Double
+
+
+flag = False
+worksheet_pos = 1
+
+For Each ws In ThisWorkbook.Worksheets
+    ws.Activate
+    worksheet_pos = 2
+    ticker = Cells(2, 1).Value
+    open_stock = Cells(2, 3).Value
+    total_stock = Cells(2, 7).Value
+
+    For i = 3 To ws.Cells(Rows.Count, 1).End(xlUp).Row - 1:
+        If Cells(i, 1).Value = ticker Then
+            total_stock = total_stock + Cells(i, 7).Value
+        Else
+            '---------------------
+            Cells(worksheet_pos, 10).Value = Cells(i - 1, 6).Value - open_stock
+            Cells(worksheet_pos, 9).Value = ticker
+            If Cells(worksheet_pos, 10).Value < 0 Then
+                Cells(worksheet_pos, 10).Interior.ColorIndex = 3
+            Else
+                Cells(worksheet_pos, 10).Interior.ColorIndex = 35
+            End If
+            'divisio zero
+            If open_stock <> 0 Then
+                Cells(worksheet_pos, 11).Value = Round((Cells(worksheet_pos, 10).Value / open_stock), 4)
+            Else
+                Cells(worksheet_pos, 11).Value = 0
+            End If
+    
+            Cells(worksheet_pos, 12).Value = total_stock + Cells(i - 1, 7)
+            '---------------------------
+            ticker = Cells(i, 1).Value
+            open_stock = Cells(i, 3).Value
+            total_stock = Cells(i, 7).Value
+            worksheet_pos = worksheet_pos + 1
+        End If
+    Next i
+ Next
+
+ 
+ For Each ws In ThisWorkbook.Worksheets
+  ws.Activate
+    Cells(2, 15).Value = "Ticker"
+    Cells(2, 16).Value = "Value"
+    Cells(3, 14).Value = "Greatest Positive"
+    Cells(4, 14).Value = "Greatest Negative"
+    Cells(5, 14).Value = "Greatest Total Vol"
+   great_pos = Cells(2, 11).Value
+   great_neg = Cells(2, 11).Value
+   great_vol = Cells(2, 12).Value
+    For i = 3 To ws.Cells(Rows.Count, 1).End(xlUp).Row - 1:
+        If Cells(i, 11).Value > great_pos Then
+            great_pos = Cells(i, 11).Value
+            ticker_pos = Cells(i, 9).Value
+        End If
+        If Cells(i, 11).Value < great_neg Then
+            great_neg = Cells(i, 11).Value
+            ticker_neg = Cells(i, 9).Value
+        End If
+        If Cells(i, 12).Value > great_vol Then
+            great_vol = Cells(i, 12).Value
+            ticker_vol = Cells(i, 9).Value
+        End If
+    Next i
+    
+    Cells(3, 15).Value = ticker_pos
+    Cells(4, 15).Value = ticker_neg
+    Cells(5, 15).Value = ticker_vol
+    Cells(3, 16).Value = great_pos
+    Cells(4, 16).Value = great_neg
+    Cells(5, 16).Value = great_vol
+ 
+ Next
+ 
+ 
+End Sub
