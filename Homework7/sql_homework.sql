@@ -180,13 +180,86 @@ WHERE ACTOR_ID IN ( SELECT ACTOR_ID FROM FILM_ACTOR
 #7c. You want to run an email marketing campaign in Canada, for which you will need the names and email addresses
 #of all Canadian customers. Use joins to retrieve this information.
 #------------------------------------------------------
+SELECT FIRST_NAME, LAST_NAME, EMAIL FROM CUSTOMER
+LEFT JOIN( SELECT ADDRESS_ID FROM ADDRESS
+			INNER JOIN(SELECT CITY_ID FROM CITY 
+					INNER JOIN (SELECT COUNTRY_ID FROM COUNTRY
+							WHERE COUNTRY = 'Canada') AS C ON CITY.COUNTRY_ID = C.COUNTRY_ID) AS CD 
+                            ON ADDRESS.CITY_ID = CD.CITY_ID) AS AD ON CUSTOMER.ADDRESS_ID = AD.ADDRESS_ID;
+
+
 #------------------------------------------------------
 #7d. Sales have been lagging among young families, and you wish to target all family movies for a promotion. 
 #Identify all movies categorized as family films.
 #------------------------------------------------------
+
+SELECT *FROM FILM
+WHERE FILM_ID IN (SELECT FILM_ID FROM FILM_CATEGORY WHERE CATEGORY_ID = (SELECT CATEGORY_ID FROM CATEGORY 
+												WHERE NAME = 'Family'));
+
 #------------------------------------------------------
 #7e. Display the most frequently rented movies in descending order.
 #------------------------------------------------------
+
+SELECT FILM.FILM_ID, TITLE, MOST_RENTED.SUM_VAL AS 'MOST RENTED' FROM FILM
+JOIN(SELECT TL.FILM_ID, SUM(TL.TOTAL_SUM) AS SUM_VAL FROM (SELECT FILM_ID, RL.TOTAL AS TOTAL_SUM FROM INVENTORY
+		JOIN (SELECT INVENTORY_ID, COUNT(INVENTORY_ID) AS TOTAL FROM RENTAL
+				GROUP BY INVENTORY_ID) AS RL ON INVENTORY.INVENTORY_ID = RL.INVENTORY_ID) AS TL 
+		GROUP BY TL.FILM_ID) AS MOST_RENTED
+ON FILM.FILM_ID = MOST_RENTED.FILM_ID
+ORDER BY MOST_RENTED.SUM_VAL DESC;
+
+
 #------------------------------------------------------
+
+#7f. Write a query to display how much business, in dollars, each store brought in.
+#------------------------------------------------------
+
+
+SELECT * FROM (SELECT FILM.FILM_ID AS F_ID, FILM.REPLACEMENT_COST AS F_COST, SUMMARY.STORE_ID AS S_ID, SUMMARY.TOTAL_FILMS AS S_TOTAL FROM FILM
+JOIN (SELECT FILM_ID, STORE_ID, COUNT(FILM_ID) AS TOTAL_FILMS FROM INVENTORY
+		GROUP BY FILM_ID, STORE_ID) AS SUMMARY
+ON FILM.FILM_ID = SUMMARY.FILM_ID) AS DS;
+#GROUP BY SUMMARY.STORE_ID
+
+#------------------------------------------------------
+#7g. Write a query to display for each store its store ID, city, and country.
+#------------------------------------------------------
+
+
+SELECT SAC.STORE_ID,  SAC.ADDRESS, SAC.DISTRICT, SAC.CITY, CO.COUNTRY FROM (SELECT SA.STORE_ID,  SA.ADDRESS, SA.DISTRICT, C.CITY, C.COUNTRY_ID  FROM (SELECT S.STORE_ID, A.ADDRESS, A.CITY_ID, A.DISTRICT FROM STORE AS S
+							LEFT JOIN ADDRESS AS A ON S.ADDRESS_ID = A.ADDRESS_ID) AS SA
+			JOIN CITY AS C ON SA.CITY_ID = C.CITY_ID) AS SAC
+JOIN COUNTRY AS CO ON SAC.COUNTRY_ID = CO.COUNTRY_ID;
+#------------------------------------------------------
+#7h. List the top five genres in gross revenue in descending order. (Hint: you may need 
+#to use the following tables: category, film_category, inventory, payment, and rental.
+#------------------------------------------------------
+SELECT *FROM RENTAL
+SELECT *FROM INVENTORY
+SELECT *FROM CATEGORY
+SELECT C.NAME, IRC.CATEGORY_ID, IRC.SUM_RENTAL FROM CATEGORY AS C
+RIGHT JOIN (SELECT IR.FILM_ID, FC.CATEGORY_ID, IR.SUM_RENTAL FROM FILM_CATEGORY AS FC
+		JOIN (SELECT  I.FILM_ID, R.SUM_RENTAL  FROM INVENTORY AS I
+					 JOIN(SELECT INVENTORY_ID, COUNT(INVENTORY_ID) AS SUM_RENTAL FROM RENTAL
+								GROUP BY INVENTORY_ID) AS R ON I.INVENTORY_ID = R.INVENTORY_ID) AS IR
+		ON FC.FILM_ID = IR.FILM_ID) AS IRC
+ON C.CATEGORY_ID = IRC.CATEGORY_ID
+
+
+
+#------------------------------------------------------
+#8a. In your new role as an executive, you would like to have an easy way of viewing the 
+#Top five genres by gross revenue. Use the solution from the problem above to create a view. 
+#If you haven't solved 7h, you can substitute another query to create a view.
+#------------------------------------------------------
+#------------------------------------------------------
+#8b. How would you display the view that you created in 8a?
+#------------------------------------------------------
+#------------------------------------------------------
+#8c. You find that you no longer need the view top_five_genres. Write a query to delete it.
+#------------------------------------------------------
+#------------------------------------------------------
+
 
 
