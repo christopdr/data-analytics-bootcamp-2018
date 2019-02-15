@@ -1,0 +1,24 @@
+/*master.css*/
+body, html {
+    margin:0 auto;
+    background: white;
+}
+.dd {
+    width:100px;
+    height: 100px;
+    background-color: none;
+}
+
+.custom-brand {
+    padding: 10px 20px;
+    background-color: #00cc99;
+    color: #fff !important;
+}
+
+.custom-collapse {
+    float:right !important;
+}
+
+.custom-nav {
+    float:right;
+}
