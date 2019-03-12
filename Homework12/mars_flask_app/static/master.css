@@ -1,0 +1,36 @@
+
+.center-text {
+    align-content: center;
+}
+
+.float-custom {
+    float: left;
+    width: 90%;
+}
+
+.scroll-custom {
+  overflow-y: scroll;
+    height: 220px;
+}
+
+.row-custom {
+    margin-top:20px;
+}
+
+.mars-featured {
+    width: 80%;
+}
+
+.align-custom {
+    float: right;
+}
+
+.facts-box {
+    margin-top: 25px;
+    padding: 15px 10px;
+}
+
+.weather-box {
+    border: 2px solid #DCDFE3;
+    padding: 15px 10px;
+}
