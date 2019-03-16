@@ -24,7 +24,7 @@ def home():
 def scrape():
     # @TODO: YOUR CODE HERE
     dictionary = sp.scrape_data()
-    return render_template('scrap.html', news_size=len(dictionary['news']['title']), mars_data = dictionary)
+    return render_template('scrap.html',tweet_size= len(dictionary['tweets']) , news_size=len(dictionary['news']['title']), mars_data = dictionary)
 
 
 if __name__ == "__main__":

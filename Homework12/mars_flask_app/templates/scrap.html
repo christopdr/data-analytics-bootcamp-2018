@@ -40,12 +40,23 @@
   </div>
   <div class="col-4 align-custom">
       <div class="weather-box">
-          <h3>Current Weather on Mars</h3>
-            .col-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.
+          <h3>Current Weather on Mars <img src="../static/img/favicon.ico" alt="" class="img-thumbnail"></h3>
+          <ul class="list-group scroll-custom">
+            {% for i in range(tweet_size) %}
+            <li class="list-group-item">{{ mars_data['tweets'][i] }}<br>
+              </li>
+            {% endfor %}
+          </ul>
+
       </div>
       <div class="facts-box">
           <h3>Mars Facts</h3>
-      .col-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.
+          <br>
+          <div id="facts-table"></div>
+          <<script type="text/javascript">
+            document.getElementById('facts-table').innerHTML = '{{ mars_data['facts'] }}'
+          </script>
+
       </div>
 
 

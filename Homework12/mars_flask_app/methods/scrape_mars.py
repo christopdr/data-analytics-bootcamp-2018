@@ -98,4 +98,4 @@ def get_nasa_facts(browser):
     facts_html_table = facts_soup.select('table#tablepress-mars')
     #print(facts_html_table[0])
     facts_df = pd.read_html(str(facts_html_table[0]))
-    return facts_df[0].to_html()
+    return facts_df[0].to_html(classes=None, border=None, justify=None)
