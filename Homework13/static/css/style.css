@@ -223,3 +223,10 @@ select {
     opacity: 1;
   }
 }
+
+.btn-custom {
+    background-color: dodgerblue;
+    border-radius: 6px;
+    margin-left: 25px;
+    margin-bottom: 10px;
+}

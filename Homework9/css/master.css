@@ -75,11 +75,14 @@ body, html {
 }
 
 .custom-col-left {
-    background-color: greenyellow;
+    background-color: #fff;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-right: 20px;
 }
 
 .custom-col-right {
-    background-color: coral;
+    background-color: #fff;
 }
 
 .row-custom {
@@ -88,11 +91,36 @@ body, html {
 }
 
 .custom-img {
-    width: 300px;
-    height: 200px;
+    width: 250px;
     float: left;
+    margin-right: 20px;
 }
 
 .p-custom-right {
     float:right;
+}
+
+.h2-custom {
+    margin-top: 25px;
+    color: #00CC99;
+}
+
+.container {
+    
+}
+@media (min-width: 1200px)
+.container {
+    max-width: 1400px !important;
+}
+.custom-img-small {
+    background-size: contain;
+    width: 160px;
+    height: auto;
+    margin-right: 12px;
+    margin-bottom: 30px;
+    margin-top:10px;
+}
+@media (min-width: 760px)
+    .custom-col-right{
+        margin-top:30px;
 }

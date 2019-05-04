@@ -6,6 +6,8 @@
   <title>UFO Finder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <link rel="stylesheet" href="static/css/style.css">
 </head>
@@ -37,11 +39,37 @@
                     <ul class="list-group" id="filters">
                       <li class="filter list-group-item">
                         <label for="date">Enter a Date</label>
-                        <input class="form-control" id="datetime" type="text" placeholder="1/11/2011">
+                        <select id="dates_drop">
+                            <option>Select Option</option>
+                        </select>
+                      </li>
+                     <li class="filter list-group-item">
+                        <label for="city">Enter a City</label>
+                        <select id="city_drop">
+                            <option>Select Option</option>
+                        </select>
+                      </li>
+                    <li class="filter list-group-item">
+                        <label for="state">Enter a State</label>
+                        <select id="state_drop">
+                            <option>Select Option</option>
+                        </select>
+                      </li>
+                    <li class="filter list-group-item">
+                        <label for="country">Enter a Country</label>
+                        <select id="country_drop">
+                            <option>Select Option</option>
+                        </select>
+                      </li>
+                    <li class="filter list-group-item">
+                        <label for="shape">Enter a Shape</label>
+                        <select id="shape_drop">
+                            <option>Select Option</option>
+                        </select>
                       </li>
                     </ul>
                   </div>
-                  <button id="filter-btn" type="submit" class="btn btn-default">Filter Table</button>
+                  <button id="filter-btn" type="button" class="btn btn-default btn-custom">Filter Table</button>
                 </form>
               </div>
             </div>
@@ -50,18 +78,6 @@
         <div class="col-md-10">
           <div id="table-area" class="">
             <table id="ufo-table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="table-head">Date</th>
-                  <th class="table-head">City</th>
-                  <th class="table-head">State</th>
-                  <th class="table-head">Country</th>
-                  <th class="table-head">Shape</th>
-                  <th class="table-head">Duration</th>
-                  <th class="table-head">Comments</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
             </table>
           </div>
         </div>
@@ -77,3 +93,36 @@
 </body>
 
 </html>
+<script>
+    $(document).ready(function() {
+        $("#filter-btn").click(function() {
+            /*var value = $(this).children("option").filter(":selected").text();
+            var selected_date_list =[];
+            for(var i = 0; i < tableData.length; i++){
+                if(tableData[i].datetime == value){
+                   selected_date_list.push(tableData[i]);
+                }
+            }*/
+            //generateDynamicTable(selected_date_list, columns);
+            var filtered_list =[];
+            var date_val =  $('#dates_drop').children("option").filter(":selected").text();
+            //var country_val =  $('#').children("option").filter(":selected").text();
+            var city_val =  $('#city_drop').children("option").filter(":selected").text();
+            var state_val =  $('#state_drop').children("option").filter(":selected").text();
+            var shape_val =  $('#shape_drop').children("option").filter(":selected").text();
+            for(var i = 0; i < tableData.length; i++){
+                if(tableData[i].datetime == date_val || date_val=="Select Option"){
+                    if(tableData[i].state == state_val || state_val == "Select Option"){
+                        if(tableData[i].city == city_val || city_val == "Select Option"){
+                            if( tableData[i].shape == shape_val || shape_val == "Select Option"){
+                                filtered_list.push(tableData[i]);
+                            }
+                        }     
+                    }
+                   
+                }
+            }
+            generateDynamicTable(filtered_list, columns);
+        });
+    });
+</script>
